@@ -1,2 +1,3 @@
-# AlphaTrace
-The Alpha is Out There. Trace It.
+# 💻 AlphaTrace
+
+**The Alpha is Out There. Trace It.**
