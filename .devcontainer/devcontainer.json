@@ -1,6 +1,7 @@
 {
   "name": "Python DevContainer",
   "dockerFile": "Dockerfile",
+  "runArgs": ["--env-file",".env"],
   "customizations": {
     "vscode": {
       "extensions": [
