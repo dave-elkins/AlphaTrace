@@ -14,6 +14,17 @@ Instead of manually pulling financial data from multiple sources, AlphaTrace fet
 
 AlphaTrace runs Discounted Cash Flow (DCF) calculations using your chosen assumptions — growth rate, discount rate, and terminal growth. You get a conservative "fair value" estimate that you can compare against the current market price to see if a stock has a Margin of Safety.
 
+### AI-Powered Company Analysis
+
+AlphaTrace uses modern AI techniques to analyze companies beyond just the numbers:
+
+| Technique | What the AI Analyzes | The "Alpha" (Insight) |
+|-----------|---------------------|----------------------|
+| Linguistic Auditing | CEO speech patterns/evasiveness | Early warning of internal trouble |
+| Synthetic Backtesting | Generative data for "what if" scenarios | Stress-testing against 1970s-style inflation |
+| Knowledge Graphs | Inter-company relationships | Predicting "contagion" if a supplier fails |
+| Code-Base Analysis | Open-source contributions (GitHub) | Identifying the real tech leaders vs. "wrappers" |
+
 ### Generate Investment Documents
 
 For every company you analyze, AlphaTrace can generate:
@@ -25,6 +36,11 @@ For every company you analyze, AlphaTrace can generate:
 ### Track Your Watchlist
 
 Add companies to your portfolio tracker and AlphaTrace monitors them. It shows live Margin of Safety percentages, flags when a stock drops to your target buy price, and alerts you when intrinsic value needs recalculation (e.g., after an earnings report).
+
+**Each tracked position includes:**
+- **Kill Switch** — A specific numeric metric (e.g., "gross margin drops >2%") that triggers an automatic exit recommendation
+- **Lollapalooza Score** — A 1-10 rating of how many psychological biases are currently inflating the price
+- **Pre-Mortem Status** — Did the failure scenario we predicted 12 months ago start materializing?
 
 ### Build a Focused Portfolio
 
@@ -56,6 +72,33 @@ AlphaTrace is built around the Focused Portfolio philosophy — holding 10-30 hi
 - **Multi-source data** — Integrate SEC EDGAR, Morningstar, or other premium data providers
 - **Local AI option** — Run models like Llama locally for complete privacy (no data leaves your machine)
 - **Collaboration** — Share analysis files with others, export thesis documents to PDF
+
+---
+
+## The Psychological Defense Layer
+
+AlphaTrace doesn't just analyze stocks — it analyzes *your thinking*. Every investment recommendation includes a **Bias Audit** that identifies which cognitive biases might be distorting your decision:
+
+- **Social Proof Warning** — "You want to buy this because it's trending, not because the fundamentals support it"
+- **Anchoring Alert** — "You're treating $300 as a 'discount' from $150, but the real question is: is $150 expensive for this business?"
+- **Liking/Loving Trap** — "You're valuing the CEO's 'vision' at a 30% premium. Let's strip that out and value the business on fundamentals"
+- **Lollapalooza Detection** — When multiple biases converge (e.g., high social sentiment + authority bias + loss aversion), AlphaTrace triggers a high-level warning: "Decision quality is likely compromised. Require 3 non-anecdotal data points to proceed."
+
+### The Council of Contrarians
+
+For high-stakes decisions, AlphaTrace runs a **multi-agent debate** between three perspectives:
+
+1. **The Contrarian Quant** — Challenges valuation assumptions, strips out narrative
+2. **The Rational Architect** — Challenges product/market fit, detects "shiny object" syndrome
+3. **The Antagonistic Auditor** — Challenges execution assumptions, forces edge-case testing
+
+Each agent scores the decision on their specific bias vulnerabilities. If all three identify overlapping psychological distortions, the system issues a **Lollapalooza Verdict: Denied**.
+
+### Personal Bias Profile
+
+Over time, AlphaTrace learns your psychological vulnerabilities. After 10-20 decisions, it generates a report:
+
+> "You exhibit Sunk Cost bias in both your stock portfolio (holding losing positions 40% longer than winning ones) and your software projects (refusing to kill features after 2 sprints). Recommendation: Your 'Sell/Kill' threshold is being lowered by 20% for the next 30 days."
 
 ---
 
