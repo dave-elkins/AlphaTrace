@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "session-note": {
+      "mode": "subagent",
+      "hidden": true,
+      "description": "Documentation agent that only creates session notes in docs/notes/",
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "list": "allow",
+        "edit": {
+          "docs/notes/**": "allow"
+        },
+        "bash": "deny",
+        "task": "deny",
+        "todowrite": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "codesearch": "deny",
+        "lsp": "deny",
+        "grep": "deny"
+      }
+    }
+  }
+}

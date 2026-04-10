@@ -15,15 +15,24 @@ The core entity representing a publicly traded company.
 
 Quantitative financial data fetched from public sources (yfinance).
 
-- **State**: ROE, Owner Earnings, Debt-to-Equity ratio, free cash flow, operating cash flow, book value per share
-- **Purpose**: Stores the "hard numbers" from Buffett-style analysis. Updated periodically or on-demand.
+- **State**: ROE, Owner Earnings, Debt-to-Equity ratio, free cash flow, operating cash flow, book value per share, shares outstanding
+- **Purpose**: Stores the "hard numbers" from Buffett-style analysis. Updated periodically or on-demand. Shares outstanding used for market cap calculation.
 
 ### MarketData
 
-Live market data for a company.
+Daily market price data for a company.
 
-- **State**: current price, 52-week high/low, market cap, volume, dividend yield
-- **Purpose**: Provides real-time pricing context for Margin of Safety calculations. Refreshed frequently for tracked companies.
+- **State**: ticker, date, open, high, low, close, adjusted_close, volume, market_cap
+- **Actions**: fetch_historical(company_id, start_date, end_date), get_price_at(company_id, date), get_current(company_id)
+- **Purpose**: Provides historical and current pricing data for valuation and outcome tracking. Market cap fetched directly from yfinance.
+
+### Dividend
+
+Dividend payment history for a company.
+
+- **State**: company_id, ex_dividend_date, amount_per_share
+- **Actions**: fetch_for_company(company_id), get_dividends_between(company_id, start_date, end_date)
+- **Purpose**: Tracks dividend payments for total return calculation. Used with MarketData to compute actual investment returns over time.
 
 ---
 
@@ -43,12 +52,27 @@ The cushion between intrinsic value and market price.
 - **State**: target buy price, margin of safety percentage, current MOS status (overvalued/fair/undervalued)
 - **Purpose**: Determines whether a stock trades at a price that provides adequate protection. Tracks when price drops below the Margin of Safety threshold.
 
-### Analysis
+### InvestmentMemo
 
-A wrapper concept that orchestrates the full analysis workflow.
+A point-in-time investment recommendation for a company.
 
-- **State**: links to Company, FinancialMetrics, IntrinsicValue, MarginOfSafety, InvestmentThesis, PreMortem
-- **Purpose**: Represents a complete analysis instance. When you run `alphatrace analyze AAPL`, you're creating an Analysis. This concept holds references to all related data and documents.
+- **State**: 
+  - company_id, created_at, finalized_at
+  - recommendation (BUY / PASS / HOLD / SELL)
+  - target_price (from MarginOfSafety at finalization)
+  - confidence_level (0-100, derived from ChecklistAudit + BiasAudit)
+  - linked_artifacts (thesis_id, pre_mortem_id, checklist_id, bias_audit_id, intrinsic_value_id, margin_of_safety_id)
+  - user_notes
+  - outcomes: list[OutcomeSnapshot]
+  - archived
+- **Actions**: create(company_id), finalize(), archive(), review()
+- **Purpose**: Consolidates all analysis artifacts into a recommendation snapshot. Enables learning by tracking actual outcomes against predictions at 1yr, 3yr, 5yr, 10yr horizons.
+- **Operational Principle**: A finalized memo is immutable. To update your view on a company, create a new memo.
+
+#### OutcomeSnapshot
+
+- **State**: horizon (1yr / 3yr / 5yr / 10yr), actual_return, benchmark_return, outcome (OVERPERFORMED / UNDERPERFORMED / MEETS_EXPECTATIONS), calculated_at
+- **Purpose**: Records actual performance at each milestone. Used for bias learning and analysis accuracy review.
 
 ---
 
@@ -124,14 +148,8 @@ A structured vetting checklist.
 
 A structured assessment of cognitive biases affecting a decision.
 
-- **State**: decision_type (buy/sell/hold/feature), detected_biases[], severity_scores (1-10 per bias), evidence_snippets, lollapalooza_detected (bool), bias_adjusted_confidence (1-100)
+- **State**: decision_type (buy/sell/hold/feature), detected_biases (BiasType enum: SOCIAL_PROOF, AUTHORITY_BIAS, SUNK_COST, ANCHORING, CONTRAST_MISREACTION, DEPRIVAL_SUPER_REACTION, LIKING_LOVING, AVAILABILITY_MISWEIGHTING, CONFIRMATION_BIAS, OVEROPTIMISM), severity_scores (1-10 per bias), evidence_snippets, lollapalooza_detected (bool), lollapalooza_score (1-10), bias_adjusted_confidence (1-100)
 - **Purpose**: Documents which psychological tendencies are influencing the decision. Triggered automatically when analyzing investment theses or feature requests.
-
-### BiasType (Enum)
-
-The set of cognitive biases AlphaTrace detects:
-
-- SOCIAL_PROOF, AUTHORITY_BIAS, SUNK_COST, ANCHORING, CONTRAST_MISREACTION, DEPRIVAL_SUPER_REACTION (Loss Aversion), LIKING_LOVING, AVAILABILITY_MISWEIGHTING, CONFIRMATION_BIAS, OVEROPTIMISM
 
 ### DecisionLog
 
@@ -176,17 +194,22 @@ Notifications for important events.
 4. **When Position.add → Alert.price_drop.subscribe**
    - Start monitoring for price drops on new positions
 
-5. **When Analysis.complete → InvestmentThesis.generate (AI)**
-   - After analysis runs, generate thesis document
+5. **When InvestmentMemo.create → generate empty artifacts**
+   - Create placeholder InvestmentThesis, PreMortem, ChecklistAudit, BiasAudit linked to this memo
 
-6. **When Analysis.complete → PreMortem.generate (AI)**
-   - After analysis runs, generate pre-mortem
+6. **When InvestmentMemo.finalize → lock in recommendation**
+   - Requires all linked artifacts to be complete
+   - Stores target_price from MarginOfSafety at time of finalization
+   - Records linked artifact IDs (thesis_id, pre_mortem_id, etc.)
 
-7. **When Analysis.complete → ChecklistAudit.generate**
-   - After analysis runs, generate checklist
+7. **When InvestmentMemo.finalize → DecisionLog.record**
+   - Log decision for bias learning
 
-8. **When Analysis.complete → BiasAudit.generate**
-   - After analysis runs, identify which cognitive biases are present in the investment case
+8. **When InvestmentMemo.outcomes.triggered (1yr/3yr/5yr/10yr) → calculate outcome**
+   - Fetch price at finalization from MarketData
+   - Fetch price at outcome date from MarketData
+   - Fetch dividends between dates from Dividend
+   - Calculate total return and store OutcomeSnapshot
 
 9. **When DecisionLog.recorded → update BiasProfile**
    - After any decision, update the user's personal bias vulnerability scores
@@ -209,8 +232,9 @@ Notifications for important events.
 yfinance → FinancialMetrics → IntrinsicValue → MarginOfSafety
                   ↓                                    ↓
               MarketData ──────────────────────→ MarginOfSafety
+              Dividend ─────────────────────────→ (for total return)
 
-Company + Metrics + IntrinsicValue + MOS → Analysis
+Company + Metrics + IntrinsicValue + MOS → InvestmentMemo
                                           ↓
                     ┌──────────────────────┼──────────────────────┐
                     ↓                      ↓                      ↓
@@ -221,27 +245,29 @@ Company + Metrics + IntrinsicValue + MOS → Analysis
 
 Position ──────────────────────────────→ DecisionLog ← BiasAudit
 Position ────────────────────────────────→ Alert
+InvestmentMemo ────────────────────────→ OutcomeSnapshot
+                           (MarketData + Dividend)
 ```
 
 **Psychological Layer Flow:**
 
 ```
-Analysis.complete → BiasAudit.generate → Lollapalooza detection
-                                              ↓
-                              DecisionLog.recorded → BiasProfile
-                                              ↓
-                              DecisionLog.outcome_received → BiasWeights.adjust
+InvestmentMemo.finalize → BiasAudit.generate → Lollapalooza detection
+                                            ↓
+                          DecisionLog.recorded → BiasProfile
+                                            ↓
+                          DecisionLog.outcome_received → BiasWeights.adjust
 ```
 
 ---
 
 ## Open Questions
 
-1. **Versioning**: Should InvestmentThesis, PreMortem, and ChecklistAudit store version history? The vision mentions "flags when intrinsic value needs recalculation" — this could imply storing the assumptions that generated each version.
+1. ~~**Versioning**~~: Resolved — each InvestmentMemo creates fresh artifacts (new thesis_id, pre_mortem_id, etc.). No version history within concepts.
 
 2. **Alert delivery**: How should alerts be delivered? CLI notifications only? File-based? Extensible to email/webhook?
 
-3. **AI provider**: The vision references "AI generates" — should there be a configurable AIProvider concept to swap between OpenAI, Anthropic, local Llama, etc.?
+3. ~~**AI provider**~~: Resolved — infrastructure concern, not a domain concept.
 
 4. **Data freshness**: How often should MarketData refresh? On-demand only, or background polling for watched companies?
 
@@ -258,7 +284,7 @@ Analysis.complete → BiasAudit.generate → Lollapalooza detection
 When implementing, start with:
 
 1. **Company** — the simplest starting point, establishes the ID system
-2. **FinancialMetrics + MarketData** — demonstrate fetching external data
+2. **FinancialMetrics + MarketData + Dividend** — demonstrate fetching external data, historical prices, and dividend data
 3. **IntrinsicValue** — introduces the core mathematical model
 
-These three establish the data layer foundation. The portfolio and document concepts build on top.
+These establish the data layer foundation. The portfolio and document concepts build on top.
