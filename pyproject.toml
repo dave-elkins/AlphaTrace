@@ -1,0 +1,7 @@
+[project]
+name = "AlphaTrace"
+version = "0.1.0"
+description = "alpha is out there. trace it."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
