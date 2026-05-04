@@ -1,6 +1,7 @@
 {
   "name": "AlphaTrace Devcontainer",
   "build": { "dockerfile": "Dockerfile" },
+  "runArgs": ["--env-file", "${localWorkspaceFolder}/.env"],
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "postCreateCommand": "./.devcontainer/post-create.sh",
