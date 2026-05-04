@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "/workspace/.venv/bin/python3.12",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "python.analysis.typeCheckingMode": "basic"
+}
