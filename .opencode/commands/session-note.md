@@ -31,10 +31,12 @@ Generates a session note file in `docs/notes/000N-[name].md` capturing what was 
    - Anything that might make interesting blog content?
 
 3. **Auto-detect next sequence number**:
-   ```
+   ```bash
    ls docs/notes/*.md | sort -V | tail -1
    ```
-   Extract the number from the last file (e.g., `0001` → `0002`)
+   Extract the 4-digit number from the last file (e.g., `0008-some-note.md` → `0008`), then increment it to get the next sequence number (e.g., `0009`). Pad with zeros to 4 digits. Example:
+   - Last file: `docs/notes/0008-some-note.md`
+   - Next file: `docs/notes/0009-${session_name}.md`
 
 4. **Write ONLY the session note** to `docs/notes/[NEXT]-${session_name}.md` using this template:
 
@@ -76,8 +78,8 @@ Generates a session note file in `docs/notes/000N-[name].md` capturing what was 
 ## Example
 
 Session name: "defining-the-idea"
-- Last file: `docs/notes/0001-defining-the-idea.md`
-- Next file: `docs/notes/0002-setup-project-structure.md`
+- Last file: `docs/notes/0008-defining-the-idea.md`
+- Next file: `docs/notes/0009-defining-the-idea.md`
 
 ## What This Command Does NOT Do
 
