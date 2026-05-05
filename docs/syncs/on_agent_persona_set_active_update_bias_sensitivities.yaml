@@ -1,0 +1,19 @@
+sync: "on_agent_persona_set_active_update_bias_sensitivities"
+description: "When an agent persona is set as active, update the bias audit sensitivities accordingly"
+when:
+  concept: "AgentPersona"
+  action: "set_active"
+where:
+  - condition: "Persona has defined bias sensitivities"
+    query:
+      concept: "AgentPersona"
+      action: "get_by_id"
+      args: ["{persona_id}"]
+then:
+  - concept: "BiasAudit"
+    action: "update_bias_sensitivities"
+    args: ["{output.bias_sensitivities}"]
+    compensating_action:
+      concept: "BiasAudit"
+      action: "update_bias_sensitivities"
+      args: ["{}"]

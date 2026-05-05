@@ -1,0 +1,19 @@
+sync: "on_intrinsic_value_recalculate_update_margin_of_safety"
+description: "When intrinsic value is recalculated, update the margin of safety status"
+when:
+  concept: "IntrinsicValue"
+  action: "recalculate"
+where:
+  - condition: "Margin of safety exists for the company"
+    query:
+      concept: "Company"
+      action: "get_by_id"
+      args: ["{company_id}"]
+then:
+  - concept: "MarginOfSafety"
+    action: "recalculate_status"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "MarginOfSafety"
+      action: "recalculate_status"
+      args: ["{company_id}"]

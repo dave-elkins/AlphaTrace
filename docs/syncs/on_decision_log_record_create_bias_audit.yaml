@@ -1,0 +1,19 @@
+sync: "on_decision_log_record_create_bias_audit"
+description: "When a decision is recorded, automatically create a bias audit for that decision"
+when:
+  concept: "DecisionLog"
+  action: "record_decision"
+where:
+  - condition: "Decision type is valid (buy/sell/hold/feature)"
+    query:
+      concept: "DecisionLog"
+      action: "get_by_id"
+      args: ["{decision_id}"]
+then:
+  - concept: "BiasAudit"
+    action: "create"
+    args: ["{output.decision_type}"]
+    compensating_action:
+      concept: "BiasAudit"
+      action: "finalize"
+      args: ["{output.audit_id}"]

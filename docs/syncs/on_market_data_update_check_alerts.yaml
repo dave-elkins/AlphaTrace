@@ -1,0 +1,19 @@
+sync: "on_market_data_update_check_alerts"
+description: "When market data is updated, check if price drops trigger alerts"
+when:
+  concept: "MarketData"
+  action: "fetch_historical"
+where:
+  - condition: "Price dropped below margin of safety target buy price"
+    query:
+      concept: "MarginOfSafety"
+      action: "get_by_company"
+      args: ["{company_id}"]
+then:
+  - concept: "Alert"
+    action: "create"
+    args: ["{company_id}", "price_drop"]
+    compensating_action:
+      concept: "Alert"
+      action: "dismiss"
+      args: ["{output.alert_id}"]

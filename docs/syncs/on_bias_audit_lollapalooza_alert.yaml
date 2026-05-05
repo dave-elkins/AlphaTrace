@@ -1,0 +1,19 @@
+sync: "on_bias_audit_lollapalooza_alert"
+description: "When a lollapalooza effect is detected with high severity, trigger an alert"
+when:
+  concept: "BiasAudit"
+  action: "calculate_lollapalooza"
+where:
+  - condition: "Lollapalooza score is high (greater than 7)"
+    query:
+      concept: "BiasAudit"
+      action: "get_by_id"
+      args: ["{audit_id}"]
+then:
+  - concept: "Alert"
+    action: "create"
+    args: ["{company_id}", "recalculation_needed"]
+    compensating_action:
+      concept: "Alert"
+      action: "dismiss"
+      args: ["{output.alert_id}"]

@@ -1,0 +1,19 @@
+sync: "on_position_create_add_to_portfolio"
+description: "When a new position is created, automatically add it to the portfolio"
+when:
+  concept: "Position"
+  action: "create"
+where:
+  - condition: "Portfolio exists and has not reached maximum holdings (30)"
+    query:
+      concept: "Portfolio"
+      action: "get_current"
+      args: []
+then:
+  - concept: "Portfolio"
+    action: "add_position"
+    args: ["{output.position_id}"]
+    compensating_action:
+      concept: "Portfolio"
+      action: "remove_position"
+      args: ["{output.position_id}"]

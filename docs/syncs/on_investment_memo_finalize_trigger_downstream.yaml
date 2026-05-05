@@ -1,0 +1,28 @@
+sync: "on_investment_memo_finalize_trigger_downstream"
+description: "When an investment memo is finalized, trigger decision logging and finalize all associated documents"
+when:
+  concept: "InvestmentMemo"
+  action: "finalize"
+where:
+  - condition: "All required documents are complete (thesis, pre-mortem, checklist, moat, AI due diligence)"
+    query:
+      concept: "InvestmentMemo"
+      action: "get_by_id"
+      args: ["{memo_id}"]
+then:
+  - concept: "DecisionLog"
+    action: "record_decision"
+    args: ["STOCK_PM", "{output.recommendation}", "{output.confidence_level}", 0]
+    compensating_action:
+      concept: "DecisionLog"
+      action: "update_outcome"
+      args: ["{output.decision_id}", "MEETS_EXPECTATIONS"]
+  - concept: "InvestmentThesis"
+    action: "finalize"
+    args: ["{linked_artifacts.thesis_id}"]
+  - concept: "PreMortem"
+    action: "finalize"
+    args: ["{linked_artifacts.premortem_id}"]
+  - concept: "BiasAudit"
+    action: "finalize"
+    args: ["{linked_artifacts.bias_audit_id}"]

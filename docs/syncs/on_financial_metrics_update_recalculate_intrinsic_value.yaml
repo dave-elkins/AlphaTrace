@@ -1,0 +1,19 @@
+sync: "on_financial_metrics_update_recalculate_intrinsic_value"
+description: "When financial metrics are updated, recalculate the intrinsic value for the company"
+when:
+  concept: "FinancialMetrics"
+  action: "update"
+where:
+  - condition: "Company has an existing intrinsic value calculation"
+    query:
+      concept: "Company"
+      action: "get_by_id"
+      args: ["{company_id}"]
+then:
+  - concept: "IntrinsicValue"
+    action: "recalculate"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "IntrinsicValue"
+      action: "recalculate"
+      args: ["{company_id}"]

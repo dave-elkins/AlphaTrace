@@ -1,0 +1,19 @@
+sync: "on_margin_of_safety_undervalued_alert"
+description: "When margin of safety status changes to undervalued, trigger an alert"
+when:
+  concept: "MarginOfSafety"
+  action: "recalculate_status"
+where:
+  - condition: "Status is undervalued"
+    query:
+      concept: "MarginOfSafety"
+      action: "get_by_company"
+      args: ["{company_id}"]
+then:
+  - concept: "Alert"
+    action: "create"
+    args: ["{company_id}", "target_hit"]
+    compensating_action:
+      concept: "Alert"
+      action: "dismiss"
+      args: ["{output.alert_id}"]

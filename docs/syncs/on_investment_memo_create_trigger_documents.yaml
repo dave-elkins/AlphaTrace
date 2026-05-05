@@ -1,0 +1,47 @@
+sync: "on_investment_memo_create_trigger_documents"
+description: "When an investment memo is created, automatically create all associated analysis documents"
+when:
+  concept: "InvestmentMemo"
+  action: "create"
+where:
+  - condition: "Company exists and is valid"
+    query:
+      concept: "Company"
+      action: "get_by_id"
+      args: ["{company_id}"]
+then:
+  - concept: "InvestmentThesis"
+    action: "create"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "InvestmentThesis"
+      action: "archive"
+      args: ["{output.thesis_id}"]
+  - concept: "PreMortem"
+    action: "create"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "PreMortem"
+      action: "finalize"
+      args: ["{output.premortem_id}"]
+  - concept: "ChecklistAudit"
+    action: "create"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "ChecklistAudit"
+      action: "calculate_overall"
+      args: ["{output.audit_id}"]
+  - concept: "MoatStrengthAssessment"
+    action: "create"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "MoatStrengthAssessment"
+      action: "calculate_overall"
+      args: ["{output.assessment_id}"]
+  - concept: "AIDueDiligence"
+    action: "create"
+    args: ["{company_id}"]
+    compensating_action:
+      concept: "AIDueDiligence"
+      action: "finalize"
+      args: ["{output.diligence_id}"]

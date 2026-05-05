@@ -1,0 +1,19 @@
+sync: "on_position_liquidate_remove_from_portfolio"
+description: "When a position is liquidated, remove it from the portfolio"
+when:
+  concept: "Position"
+  action: "liquidate"
+where:
+  - condition: "Position is fully liquidated (shares = 0)"
+    query:
+      concept: "Position"
+      action: "get_by_id"
+      args: ["{position_id}"]
+then:
+  - concept: "Portfolio"
+    action: "remove_position"
+    args: ["{position_id}"]
+    compensating_action:
+      concept: "Portfolio"
+      action: "add_position"
+      args: ["{position_id}"]
