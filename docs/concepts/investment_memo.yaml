@@ -1,5 +1,4 @@
 concept_name: "InvestmentMemo"
-domain: "Analysis Layer"
 state:
   - company_id
   - created_at

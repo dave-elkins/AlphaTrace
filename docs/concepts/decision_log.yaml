@@ -1,5 +1,4 @@
 concept_name: "DecisionLog"
-domain: "Psychological Defense Layer"
 state:
   - decision_id
   - timestamp
@@ -9,5 +8,9 @@ state:
   - agent_confidence (1-100)
   - actual_outcome (OVERPERFORMED/UNDERPERFORMED/MEETS_EXPECTATIONS)
   - post_hoc_analysis
+actions:
+  - record_decision(context, summary, user_confidence, agent_confidence)
+  - update_outcome(decision_id, outcome)
+  - add_post_hoc_analysis(decision_id, analysis)
 purpose: "Enables the system to learn which biases the user is most prone to over time."
 operational_principle: "The concept adjusts its internal bias weight records based on the accuracy of historical decisions."

@@ -1,5 +1,4 @@
 concept_name: "MarketData"
-domain: "Data Layer"
 state:
   - ticker
   - date

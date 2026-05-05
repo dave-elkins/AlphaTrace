@@ -1,5 +1,4 @@
 concept_name: "PreMortem"
-domain: "Document Layer"
 state:
   - failure scenarios (5-year outlook)
   - risk factors
@@ -8,5 +7,11 @@ state:
   - lollapalooza_score (1-10)
   - kill_switch_metric
   - kill_switch_threshold
+actions:
+  - create(company_id)
+  - add_failure_scenario(scenario)
+  - add_risk_factor(factor)
+  - update_mitigation(risk_id, note)
+  - finalize()
 purpose: "Forces confrontation of downside before buying. Part of the disciplined investment process. Tracks which psychological biases were identified at time of analysis."
 operational_principle: "Mandatory for BUY recommendations; failure scenarios are fixed once the linked memo is finalized."

@@ -1,10 +1,12 @@
 concept_name: "Position"
-domain: "Portfolio Layer"
 state:
   - company_id
   - number of shares
   - average cost basis
   - position size (% of total portfolio value)
   - date acquired
+actions:
+  - create(company_id, shares, cost_basis)
+  - liquidate(position_id, shares)
 purpose: "Represents an actual investment. Enforces position size limits (no single holding too large)."
 operational_principle: "Positions are immutable once added except for partial/full liquidation; no single position may exceed the configured maximum allocation percentage."

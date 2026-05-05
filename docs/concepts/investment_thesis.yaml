@@ -1,10 +1,15 @@
 concept_name: "InvestmentThesis"
-domain: "Document Layer"
 state:
   - bull cases (3)
   - kill-switch sell conditions (3)
   - thesis text
   - date created
   - author
+actions:
+  - create(company_id)
+  - update_thesis(text)
+  - add_bull_case(case)
+  - add_kill_switch(condition)
+  - finalize()
 purpose: "Documents the why behind an investment. Generated AI-assisted but owned by the user."
 operational_principle: "User-owned documents linked to a single memo; immutable once the linked memo is finalized."

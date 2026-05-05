@@ -1,8 +1,11 @@
 concept_name: "MarginOfSafety"
-domain: "Analysis Layer"
 state:
   - target buy price
   - margin of safety percentage
   - current MOS status (overvalued/fair/undervalued)
+actions:
+  - calculate(company_id)
+  - update_target_price(price)
+  - recalculate_status()
 purpose: "Determines whether a stock trades at a price that provides adequate protection. Tracks when price drops below the Margin of Safety threshold."
 operational_principle: "Status is derived solely from the ratio of current market price to target buy price; target buy price is set based on internal fair value assumptions."

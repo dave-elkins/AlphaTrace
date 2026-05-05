@@ -1,10 +1,13 @@
 concept_name: "Company"
-domain: "Data Layer"
 state:
   - ticker symbol
   - company name
   - sector
   - industry
   - business description
+actions:
+  - create(ticker, name, sector, industry)
+  - update(company_id, fields)
+  - get_by_ticker(ticker)
 purpose: "Single source of truth for company identity."
 operational_principle: "Each entity is uniquely identified by an opaque ID; core identity fields are immutable once added to maintain a single source of truth."

@@ -1,5 +1,4 @@
 concept_name: "Dividend"
-domain: "Data Layer"
 state:
   - company_id
   - ex_dividend_date

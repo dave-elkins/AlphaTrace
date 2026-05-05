@@ -1,9 +1,14 @@
 concept_name: "Watchlist"
-domain: "Portfolio Layer"
 state:
   - list of company_id
   - notes
   - tags
   - date added
+actions:
+  - add_company(company_id)
+  - remove_company(company_id)
+  - update_notes(company_id, notes)
+  - add_tag(company_id, tag)
+  - remove_tag(company_id, tag)
 purpose: "Tracks companies of interest with optional notes and tags."
 operational_principle: "Entries are user-curated; entities can be added or removed at any time, with optional notes and tags."
