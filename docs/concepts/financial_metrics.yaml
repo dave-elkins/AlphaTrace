@@ -1,0 +1,12 @@
+concept_name: "FinancialMetrics"
+domain: "Data Layer"
+state:
+  - ROE
+  - Owner Earnings
+  - Debt-to-Equity ratio
+  - free cash flow
+  - operating cash flow
+  - book value per share
+  - shares outstanding
+purpose: "Stores the quantitative financial data fetched from public sources. Updated periodically or on-demand. Shares outstanding used for market cap calculation."
+operational_principle: "Metrics are a read-only record of public data at time of fetch; each update replaces previous metrics for the same entity and metric period."

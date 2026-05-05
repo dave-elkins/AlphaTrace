@@ -1,0 +1,10 @@
+concept_name: "MoatStrengthAssessment"
+domain: "Document Layer"
+state:
+  - Model rating (Low Moat / High Moat)
+  - Data rating (Low Moat / High Moat)
+  - Switching Cost rating (Low Moat / High Moat)
+  - Margins rating (Low Moat / High Moat)
+  - overall moat strength (Low Moat / High Moat)
+purpose: "Rates moat strength across four predefined features to determine overall defensibility."
+operational_principle: "Rates moat strength across four predefined features (Model, Data, Switching Cost, Margins); overall rating is derived solely from the four feature assessments."

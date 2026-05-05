@@ -1,0 +1,11 @@
+concept_name: "Dividend"
+domain: "Data Layer"
+state:
+  - company_id
+  - ex_dividend_date
+  - amount_per_share
+actions:
+  - fetch_for_company(company_id)
+  - get_dividends_between(company_id, start_date, end_date)
+purpose: "Tracks dividend payment history for a company. Used with pricing data to compute actual investment returns over time."
+operational_principle: "Dividend records are an immutable log of ex-dividend dates and amounts; each entry is unique per entity and ex-dividend date."

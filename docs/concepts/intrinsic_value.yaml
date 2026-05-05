@@ -1,0 +1,10 @@
+concept_name: "IntrinsicValue"
+domain: "Analysis Layer"
+state:
+  - fair value estimate
+  - growth rate assumption
+  - discount rate (WACC)
+  - terminal growth rate
+  - DCF model inputs/outputs
+purpose: "Calculates the fair value of a business based on cash flow projections."
+operational_principle: "Fair value must be recalculated when the concept's key internal assumptions change or its stored financial data inputs are updated."

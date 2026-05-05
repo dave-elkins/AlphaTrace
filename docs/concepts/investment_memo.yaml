@@ -1,0 +1,30 @@
+concept_name: "InvestmentMemo"
+domain: "Analysis Layer"
+state:
+  - company_id
+  - created_at
+  - finalized_at
+  - recommendation (BUY / PASS / HOLD / SELL)
+  - target_price
+  - confidence_level (0-100)
+  - linked_artifacts (artifact IDs)
+  - user_notes
+  - outcomes: list[OutcomeSnapshot]
+  - archived
+actions:
+  - create(company_id)
+  - finalize()
+  - archive()
+  - review()
+purpose: "Consolidates all analysis artifacts into a recommendation snapshot. Enables learning by tracking actual outcomes against predictions at 1yr, 3yr, 5yr, 10yr horizons."
+operational_principle: "A finalized memo is immutable. To update the analysis for the linked entity, create a new memo."
+nested_concepts:
+  - concept_name: "OutcomeSnapshot"
+    state:
+      - horizon (1yr / 3yr / 5yr / 10yr)
+      - actual_return
+      - benchmark_return
+      - outcome (OVERPERFORMED / UNDERPERFORMED / MEETS_EXPECTATIONS)
+      - calculated_at
+    purpose: "Records actual performance at each milestone. Used for bias learning and analysis accuracy review."
+    operational_principle: "Outcome snapshots are immutable records of actual returns at predefined horizons; calculated once per horizon when triggered."

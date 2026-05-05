@@ -1,0 +1,11 @@
+concept_name: "ChecklistAudit"
+domain: "Document Layer"
+state:
+  - Circle of Competence assessment (done/not done)
+  - Moat assessment (done/not done)
+  - Management assessment (done/not done)
+  - Financials assessment (done/not done)
+  - Valuation assessment (done/not done)
+  - overall pass/fail
+purpose: "Provides binary go/no-go decision framework. Each category is scored."
+operational_principle: "Tracks completion status of all required analysis types; overall pass/fail is determined only when all types are marked done."

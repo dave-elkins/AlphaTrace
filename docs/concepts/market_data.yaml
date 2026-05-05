@@ -1,0 +1,18 @@
+concept_name: "MarketData"
+domain: "Data Layer"
+state:
+  - ticker
+  - date
+  - open
+  - high
+  - low
+  - close
+  - adjusted_close
+  - volume
+  - market_cap
+actions:
+  - fetch_historical(company_id, start_date, end_date)
+  - get_price_at(company_id, date)
+  - get_current(company_id)
+purpose: "Provides historical and current pricing data for valuation and outcome tracking. Market cap fetched directly from external data sources."
+operational_principle: "Price data is an append-only record of daily trading activity; current data reflects the latest available price for the entity."

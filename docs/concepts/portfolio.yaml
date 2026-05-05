@@ -1,0 +1,9 @@
+concept_name: "Portfolio"
+domain: "Portfolio Layer"
+state:
+  - list of position_id
+  - total value
+  - cash position
+  - rebalancing rules
+purpose: "Manages the focused portfolio as a whole. Enforces the 10-30 stock limit. Calculates allocation percentages."
+operational_principle: "Enforces a maximum of 30 holdings; total value is the sum of all position values plus cash; allocation percentages are recalculated on position changes."

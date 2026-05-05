@@ -1,0 +1,13 @@
+concept_name: "DecisionLog"
+domain: "Psychological Defense Layer"
+state:
+  - decision_id
+  - timestamp
+  - context (STOCK_PM / PRODUCT_ANALYST)
+  - decision_summary
+  - user_confidence (1-100)
+  - agent_confidence (1-100)
+  - actual_outcome (OVERPERFORMED/UNDERPERFORMED/MEETS_EXPECTATIONS)
+  - post_hoc_analysis
+purpose: "Enables the system to learn which biases the user is most prone to over time."
+operational_principle: "The concept adjusts its internal bias weight records based on the accuracy of historical decisions."

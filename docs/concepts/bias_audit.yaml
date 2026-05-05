@@ -1,0 +1,12 @@
+concept_name: "BiasAudit"
+domain: "Psychological Defense Layer"
+state:
+  - decision_type (buy/sell/hold/feature)
+  - detected_biases (BiasType enum: SOCIAL_PROOF, AUTHORITY_BIAS, SUNK_COST, ANCHORING, CONTRAST_MISREACTION, DEPRIVAL_SUPER_REACTION, LIKING_LOVING, AVAILABILITY_MISWEIGHTING, CONFIRMATION_BIAS, OVEROPTIMISM)
+  - severity_scores (1-10 per bias)
+  - evidence_snippets
+  - lollapalooza_detected (bool)
+  - lollapalooza_score (1-10)
+  - bias_adjusted_confidence (1-100)
+purpose: "Documents which psychological tendencies are influencing the decision. Triggered automatically when analyzing investment theses or feature requests."
+operational_principle: "Generated automatically when a decision is recorded; detected biases and severity scores are fixed once the linked memo is finalized."

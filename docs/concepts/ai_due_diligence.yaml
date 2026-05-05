@@ -1,0 +1,9 @@
+concept_name: "AIDueDiligence"
+domain: "Document Layer"
+state:
+  - Data Sovereignty assessment (Proprietary data ownership, flywheel effect, data freshness)
+  - Architecture assessment (Built-in vs. bolt-on AI, compute efficiency, wrapper test)
+  - Talent & Execution assessment (Key personnel, open source contribution, shipping velocity)
+  - Unit Economics assessment (Margin expansion since AI implementation, revenue per employee, CAC impact)
+purpose: "Evaluates AI-specific moat dimensions as part of the moat assessment in the checklist audit concept."
+operational_principle: "Evaluates four key AI moat dimensions (Data Sovereignty, Architecture, Talent & Execution, Unit Economics); results are immutable once the concept's assessment is finalized."

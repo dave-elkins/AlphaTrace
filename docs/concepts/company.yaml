@@ -1,0 +1,10 @@
+concept_name: "Company"
+domain: "Data Layer"
+state:
+  - ticker symbol
+  - company name
+  - sector
+  - industry
+  - business description
+purpose: "Single source of truth for company identity."
+operational_principle: "Each entity is uniquely identified by an opaque ID; core identity fields are immutable once added to maintain a single source of truth."

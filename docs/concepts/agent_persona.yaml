@@ -1,0 +1,9 @@
+concept_name: "AgentPersona"
+domain: "Psychological Defense Layer"
+state:
+  - persona_type (CONTRARIAN / RATIONAL_ARCHITECT / ANTAGONIST_AUDITOR / COUNCIL_MODERATOR)
+  - system_prompt
+  - bias_sensitivities[]
+  - output_format
+purpose: "Allows swapping between different analytical personas depending on the decision context."
+operational_principle: "User-configurable; the active persona determines the system prompt and bias sensitivity weights for all generated analysis."

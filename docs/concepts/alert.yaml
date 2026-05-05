@@ -1,0 +1,9 @@
+concept_name: "Alert"
+domain: "Cross-Cutting"
+state:
+  - alert type (price_drop, recalculation_needed, target_hit)
+  - company_id
+  - triggered_at
+  - acknowledged
+purpose: "Keeps the user informed of important events."
+operational_principle: "Triggered by predefined events; each alert is either acknowledged or dismissed, with no retry once resolved."
